@@ -1,0 +1,32 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "jsRules": {
+    "no-unused-expression": true,
+    "object-literal-sort-keys": false
+  },
+  "rules": {
+    "ordered-imports": false,
+    "origin-ordered-imports": [
+      true,
+      "one-blank-line",
+      ["lib", "user"]
+    ],
+    "interface-name": [true, "never-prefix"],
+    "object-literal-sort-keys": false,
+    "curly": [true, "ignore-same-line"],
+    "member-ordering": false,
+    "interface-over-type-literal": false,
+    "no-object-literal-type-assertion": [
+      true, {
+        "allow-arguments": true
+      }
+    ],
+    "no-submodule-imports": false,
+    "newline-before-return": true
+  }
+}
