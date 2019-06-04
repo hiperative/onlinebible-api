@@ -1,10 +1,12 @@
+import 'reflect-metadata';
+import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import express from 'express';
-import mongoose from 'mongoose';
-import { env } from 'process';
+import { useExpressServer } from 'routing-controllers';
+// import mongoose from 'mongoose';
+// import { env } from "process";
 
-import Routes from './routes';
+// import Routes from './routes';
 
 class App {
   public app: express.Application;
@@ -28,36 +30,40 @@ class App {
     this.loadRoutes();
 
     // configure database
-    this.mongoSetup();
+    // this.mongoSetup();
 
     // serving static files
     this.app.use(express.static('public'));
   }
 
   private loadRoutes(): void {
-    this.app.use('/api', Routes);
+    useExpressServer(this.app, {
+      controllers: [`${__dirname}/controllers/*`],
+      middlewares: [`${__dirname}/middlewares/*`],
+    });
+    // this.app.use('/api', Routes);
   }
 
-  private mongoSetup(): void {
-    const {
-      MONGODB_URI,
-      MONGODB_DATABASE,
-      MONGODB_USERNAME,
-      MONGODB_PASSWORD
-    } = env;
-    // mongoose.Promise = global.Promise;
-    try {
-      mongoose.connect(`mongodb://${MONGODB_URI}/${MONGODB_DATABASE}`, {
-        auth: {
-          user: MONGODB_USERNAME,
-          password: MONGODB_PASSWORD
-        },
-        useNewUrlParser: true
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  // private mongoSetup(): void {
+  //   const {
+  //     MONGODB_URI,
+  //     MONGODB_DATABASE,
+  //     MONGODB_USERNAME,
+  //     MONGODB_PASSWORD
+  //   } = env;
+  //   // mongoose.Promise = global.Promise;
+  //   try {
+  //     mongoose.connect(`mongodb://${MONGODB_URI}/${MONGODB_DATABASE}`, {
+  //       auth: {
+  //         user: MONGODB_USERNAME,
+  //         password: MONGODB_PASSWORD
+  //       },
+  //       useNewUrlParser: true
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 }
 
 export default new App().app;
