@@ -3,6 +3,16 @@
 hash: 17ab676fe7ecfe0919a38bc574e304f9
 client: ff913c55498d2380-01
 
+## App Structure:
+
+* config
+* controllers
+* entities
+* middlewares
+* schemas
+* services
+* useCases
+
 ## Resources
 
 ```bash
