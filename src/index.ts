@@ -4,11 +4,6 @@ import https from 'https';
 import app from './app';
 import config from './config';
 
-const privateKey = fs.readFileSync('ssl/server.key', 'utf8');
-const certificate = fs.readFileSync('ssl/server.crt', 'utf8');
-
-const credentials = { key: privateKey, cert: certificate };
-
 http.createServer(app).listen(config.port, () => {
   console.log(`
   ------------
@@ -20,11 +15,20 @@ http.createServer(app).listen(config.port, () => {
   `);
 });
 
-https.createServer(credentials, app).listen(433, () => {
-  console.log(`
-  ------------
-  HTTPS Enabled!
-  Express:      https://localhost:${433}
-  ------------
-  `);
-});
+try {
+  const privateKey: string = fs.readFileSync('ssl/server.key', 'utf8');
+  const certificate: string = fs.readFileSync('ssl/server.crt', 'utf8');
+
+  const credentials: { key: string; cert: string } = { key: privateKey, cert: certificate };
+
+  https.createServer(credentials, app).listen(433, () => {
+    console.log(`
+    ------------
+    HTTPS Enabled!
+    Express:      https://localhost:${433}
+    ------------
+    `);
+  });
+} catch (error) {
+  console.error(error);
+}
